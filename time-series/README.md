@@ -1,72 +1,126 @@
 
-# Mod 4 Project - Starter Notebook
+# Mod 4 Project :
 
-This notebook has been provided to you so that you can make use of the following starter code to help with the trickier parts of preprocessing the Zillow dataset. 
+In this preject we are going to work with time series in order to predict the future property values for the 5 top zipcodes of San Jose Metro area in California based on the price of previous years.
 
-The notebook contains a rough outline the general order you'll likely want to take in this project. You'll notice that most of the areas are left blank. This is so that it's more obvious exactly when you should make use of the starter code provided for preprocessing. 
+[Datacleaning_jupyternotebook](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/time-series/Project4_final_notebook.ipynb)
 
-**_NOTE:_** The number of empty cells are not meant to infer how much or how little code should be involved in any given step--we've just provided a few for your convenience. Add, delete, and change things around in this notebook as needed!
-
-# Some Notes Before Starting
-
-This project will be one of the more challenging projects you complete in this program. This is because working with Time Series data is a bit different than working with regular datasets. In order to make this a bit less frustrating and help you understand what you need to do (and when you need to do it), we'll quickly review the dataset formats that you'll encounter in this project. 
-
-## Wide Format vs Long Format
-
-If you take a look at the format of the data in `zillow_data.csv`, you'll notice that the actual Time Series values are stored as separate columns. Here's a sample: 
-
-<img src='~/../images/df_head.png'>
-
-You'll notice that the first seven columns look like any other dataset you're used to working with. However, column 8 refers to the median housing sales values for April 1996, column 9 for May 1996, and so on. This This is called **_Wide Format_**, and it makes the dataframe intuitive and easy to read. However, there are problems with this format when it comes to actually learning from the data, because the data only makes sense if you know the name of the column that the data can be found it. Since column names are metadata, our algorithms will miss out on what dates each value is for. This means that before we pass this data to our ARIMA model, we'll need to reshape our dataset to **_Long Format_**. Reshaped into long format, the dataframe above would now look like:
-
-<img src='~/../images/melted1.png'>
-
-There are now many more rows in this dataset--one for each unique time and zipcode combination in the data! Once our dataset is in this format, we'll be able to train an ARIMA model on it. The method used to convert from Wide to Long is `pd.melt()`, and it is common to refer to our dataset as 'melted' after the transition to denote that it is in long format. 
-
-# Helper Functions Provided
-
-Melting a dataset can be tricky if you've never done it before, so you'll see that we have provided a sample function, `melt_data()`, to help you with this step below. Also provided is:
-
-* `get_datetimes()`, a function to deal with converting the column values for datetimes as a pandas series of datetime objects
-* Some good parameters for matplotlib to help make your visualizations more readable. 
-
-Good luck!
+[Presentation_pdf](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/time-series/Project4_presentation.pdf)
 
 
-# Step 1: Load the Data/Filtering for Chosen Zipcodes
+# Project Breakdown
 
-# Step 2: Data Preprocessing
+1. Imorting necessary libraries and load the dataset.
 
+2. separate out the San Jose metro area from the rest of the dataset to work with.
 
-```python
-def get_datetimes(df):
-    return pd.to_datetime(df.columns.values[1:], format='%Y-%m')
-```
+3. check dataset for missing data, data types and placeholders.
 
-# Step 3: EDA and Visualization
+4. convert different zipcodes mean values into monthly ordered time-series from 1996-04-01 to 2018-04-01.
 
+5. check time series stationarity.
 
-```python
-font = {'family' : 'normal',
-        'weight' : 'bold',
-        'size'   : 22}
+6. finding the best model parameters to work with.
 
-matplotlib.rc('font', **font)
+7. modeling and validating the results.
 
-# NOTE: if you visualizations are too cluttered to read, try calling 'plt.gcf().autofmt_xdate()'!
-```
-
-# Step 4: Reshape from Wide to Long Format
+8. predicting future property values using the model.
 
 
-```python
-def melt_data(df):
-    melted = pd.melt(df, id_vars=['RegionName', 'City', 'State', 'Metro', 'CountyName'], var_name='time')
-    melted['time'] = pd.to_datetime(melted['time'], infer_datetime_format=True)
-    melted = melted.dropna(subset=['value'])
-    return melted.groupby('time').aggregate({'value':'mean'})
-```
 
-# Step 5: ARIMA Modeling
+# Initial Data and its zipcode based time series:
 
-# Step 6: Interpreting Results
+* Initial wide format dataset:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/df_head.png)
+
+
+* Long format San Jose metro area dataset extracted from the initial dataset:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/SanJose_Metro_df.png)
+
+
+### The general trend of property values for different cities in San Jose metro area:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Gtrend_SJMetro_Property_Value.png)
+
+
+* Zipcode based time series:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Zip_Timeseries.png)
+
+
+### Time series stationarity:
+
+* Visualizing Autocorrelation and Partial-Autocollerlation plots of time series
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Autocorrelation.png)
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Partial_Autocorrelation.png)
+
+
+
+
+# The ARIMA model initial result:
+
+* In-sample predictions for test data:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Timeseries_initial_model_result.png)
+
+
+* Out_of_sample predictions for future years, from 2018 to 2020: 
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Timeseries_outofsample_model_result.png)
+
+
+### Model validation using residuals and density plots:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Model_validation.png)
+
+
+
+
+# Interpreting Results:
+
+### Finding best zipcodes within san jose metro area:
+
+To find the best zip code within the given area, we wil use the following formula to calculate the return of investment:
+
+$$\large R.O.I = \frac{(GFI - CoI)}{CoI}$$
+
+ROI = Return of Investment
+
+GFI = Gain from Investment
+
+CoI = Cost of Investment
+
+Our Cost of Ivestment will be the average of 2016.
+
+To calculate GFI, we will take our cost of investment and subtract it from the average predicted means from 2018 to 2020.
+
+We will then use the formula above to calculate the return of investment for each zip code observed within 4 years.
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Five_top_zipcode.png)
+
+
+* The most profitable and highest return of investment goes to zipcode 95050, Santa Clara:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/zip_95050.png)
+
+
+* The second top profitable zipcode for investment is 94089, Sunnyvale
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/zip_94089.png)
+
+
+* Another 3 top ranked profitable zipcodes for investment are located in San Jose, 95131, 95130 and 95112.
+
+* Zipcode 95112:
+
+![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/zip_95112.png)
+
+
+### Future work and recommendations:
+
+Based on the data provided by zillow dataset, the generated ARIMA model is capable of predicting the property value changes over the time for any given period of time using the trends of previous years from 1996 to 2018.
+
+we predicted the prices for the extension of 2 years from 2018 to 2020 and found the 5-top most growing trends within San Jose metro area.
