@@ -3,7 +3,7 @@
 
 In this preject we are going to work with time series in order to predict the future property values for the 5 top zipcodes of San Jose Metro area in California based on the price of previous years.
 
-[Datacleaning_jupyternotebook](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/time-series/Project4_final_notebook.ipynb)
+[Jupyternotebook](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/time-series/Project4_final_notebook.ipynb)
 
 [Presentation_pdf](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/time-series/Project4_presentation.pdf)
 
@@ -83,21 +83,12 @@ In this preject we are going to work with time series in order to predict the fu
 
 ### Finding best zipcodes within san jose metro area:
 
-To find the best zip code within the given area, we wil use the following formula to calculate the return of investment:
+The prices are predicted for the next 2 years of our data set, from 2018 to 2020.To find the 5 top most growing zipcodes:
 
-$$\large R.O.I = \frac{(GFI - CoI)}{CoI}$$
+Calculate the percentage of profit made from the investment within 4 years from 2016 to 2020:
 
-ROI = Return of Investment
+profit = (Predicted property value on 2020 – investment value on 2016)/investment value on 2016
 
-GFI = Gain from Investment
-
-CoI = Cost of Investment
-
-Our Cost of Ivestment will be the average of 2016.
-
-To calculate GFI, we will take our cost of investment and subtract it from the average predicted means from 2018 to 2020.
-
-We will then use the formula above to calculate the return of investment for each zip code observed within 4 years.
 
 ![alt text](https://github.com/FarnazG/dsc-mod-4-project-v2-1-online-ds-ft-120919/blob/master/images/Five_top_zipcode.png)
 
@@ -121,6 +112,6 @@ We will then use the formula above to calculate the return of investment for eac
 
 ### Future work and recommendations:
 
-Based on the data provided by zillow dataset, the generated ARIMA model is capable of predicting the property value changes over the time for any given period of time using the trends of previous years from 1996 to 2018.
+Based on the data provided by zillow dataset, The generated ARIMA model is capable of predicting the average property value and its changes for any given period of time using the trends of previous years from 1996 to 2018.
 
-we predicted the prices for the extension of 2 years from 2018 to 2020 and found the 5-top most growing trends within San Jose metro area.
+For more accuracy, it seems better to keep short steps/periods of future predictions, longer periods of predictions will be more accurate after applying latest updates and changes to the dataset. 
